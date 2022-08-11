@@ -34,7 +34,8 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         //test
-        Debug.Log(Vector3.Dot(PlayerRB.velocity, -transform.right) * -transform.right.normalized);
+        Debug.Log("force" + ((groundAccel * -(float)Math.Pow((Vector3.Dot(PlayerRB.velocity, transform.forward) * transform.forward.normalized.z + groundSpeedCap), 3D)) * Time.deltaTime).ToString());
+        Debug.Log("speed" + (Vector3.Dot(PlayerRB.velocity, transform.forward) * transform.forward.normalized.z).ToString());
 
         //Ground Check Raycast setup
         int layerMask = 1 << 8;
@@ -52,6 +53,10 @@ public class PlayerController : MonoBehaviour
             {
                 
                 //PlayerRB.AddRelativeForce((groundAccel * -Math.Pow((Vector3.Dot(PlayerRB.velocity, -transform.right) * -transform.right.normalized + groundSpeedCap), 3)) * Time.deltaTime, 0, 0);
+            }
+            if (Input.GetKey(forwardKey))
+            {
+                PlayerRB.AddRelativeForce((groundAccel * -(float)Math.Pow((Vector3.Dot(PlayerRB.velocity, transform.forward) * transform.forward.normalized.z + groundSpeedCap), 3D)) * Time.deltaTime, 0, 0);
             }
         }
         else
