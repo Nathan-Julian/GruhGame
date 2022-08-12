@@ -21,15 +21,14 @@ public class PlayerController : MonoBehaviour
     float GroundCastLength = 2;
 
     //input setup
-    string leftKey = "a";
-    string rightKey = "d";
-    string forwardKey = "w";
-    string backKey = "s";
     string jumpKey = "space";
     string crouchKey = "shift";
 
     float xRotation = 0f;
     float horizontalMovement = 0f;
+    float verticalMovement = 0f;
+    bool onGround;
+    bool isSprinting = false;
 
     void Start()
     {
@@ -37,11 +36,20 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    void Movement(bool onGround, bool sprinting, bool jump, float groundAccel, float sprintAccel, float airAccel, float jumpForce)
+    {
+        if(onGround)
+        {
+            if()
+            PlayerRB.ApplyRelativeForce(horizontalMovement, 0, verticalMovement);
+        }
+    }
 
     void Update()
     {
         //keyboard controls
-        movement = Input.GetAxisRaw("Horizontal");
+        horizontalMovement = Input.GetAxisRaw("Horizontal");
+        verticalMovement = Input.GetAxisRaw("Vertical");
 
     }
 
@@ -59,24 +67,22 @@ public class PlayerController : MonoBehaviour
         {
             //did hit - on ground
             Debug.Log("touching Ground");
-            //ground actions
-
-
+            onGround = true;
 
             Debug.DrawRay(PlayerCamera.transform.position, PlayerCamera.transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
             PlayerRB.drag = groundDrag;
-            
-
             
         }
         else
         {
             //didn't hit - in air
             Debug.Log("in air");
+            onGround = false;
             Debug.DrawRay(PlayerCamera.transform.position, PlayerCamera.transform.TransformDirection(Vector3.down) * 1000, Color.white);
             PlayerRB.drag = 0.01F;
             PlayerRB.AddForce(0, -gravity * Time.deltaTime, 0); //add gravity force
         }
+
 
         //mouse input
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
