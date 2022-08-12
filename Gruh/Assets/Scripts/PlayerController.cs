@@ -29,12 +29,21 @@ public class PlayerController : MonoBehaviour
     string crouchKey = "shift";
 
     float xRotation = 0f;
+    float horizontalMovement = 0f;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+
+
+    void Update()
+    {
+        //keyboard controls
+        movement = Input.GetAxisRaw("Horizontal");
+
+    }
 
     void FixedUpdate()
     {
@@ -56,29 +65,7 @@ public class PlayerController : MonoBehaviour
 
             Debug.DrawRay(PlayerCamera.transform.position, PlayerCamera.transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
             PlayerRB.drag = groundDrag;
-            //input check
-            if (Input.GetKey(leftKey))
-            {
-                PlayerRB.AddRelativeForce(-groundAccel * Time.deltaTime * 100, 0, 0);
-            }
-            if(Input.GetKey(rightKey))
-            {
-                PlayerRB.AddRelativeForce(groundAccel * Time.deltaTime * 100, 0, 0);
-            }
-            if (Input.GetKey(forwardKey))
-            {
-                //PlayerRB.AddRelativeForce((groundAccel * -(float)Math.Pow((Vector3.Dot(PlayerRB.velocity, transform.forward) * transform.forward.normalized.z + groundSpeedCap), 3D)) * Time.deltaTime, 0, 0);
-                //PlayerRB.AddRelativeForce(groundAccel * Vector3.Dot(PlayerRB.velocity, transform.forward) * transform.forward.normalized.z * Time.deltaTime, 0, 0);
-                PlayerRB.AddRelativeForce(0, 0, groundAccel * Time.deltaTime * 100);
-            }
-            if(Input.GetKey(backKey))
-            {
-                PlayerRB.AddRelativeForce(0, 0, -groundAccel * Time.deltaTime * 100);
-            }
-            if(Input.GetKey(jumpKey))
-            {
-                PlayerRB.AddForce(0, jumpForce, 0);
-            }
+            
 
             
         }
